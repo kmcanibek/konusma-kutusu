@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#7c3aed" />
+  <meta name="description" content="5. sınıf Türkçe konuşma dersleri için rastgele konuşma kartları ve düşünme/konuşma sayaçları." />
+  <title>Konuşma Kutusu | 5. Sınıf Türkçe</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" href="icon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <p class="eyebrow">5. SINIF TÜRKÇE • KONUŞMA BECERİSİ</p>
+      <h1>🎤 Konuşma Kutusu</h1>
+      <p class="subtitle">Kartını çek, düşün, konuş ve sözünü tamamla.</p>
+    </div>
+    <button id="soundToggle" class="ghost-button" type="button" aria-pressed="true">🔔 Ses açık</button>
+  </header>
+
+  <main class="app-shell">
+    <section class="panel controls-panel" aria-labelledby="ayarlar-baslik">
+      <div class="section-heading">
+        <div>
+          <span class="step-number">1</span>
+          <div>
+            <h2 id="ayarlar-baslik">Dersi hazırla</h2>
+            <p>İstersen kategori ve süreleri değiştir.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="controls-grid">
+        <label>
+          Kategori
+          <select id="categorySelect">
+            <option value="all">Tüm kartlar</option>
+            <option value="Günlük">Günlük yaşam</option>
+            <option value="Durum">Bir durumun içindesin</option>
+            <option value="İkna">İkna et</option>
+            <option value="Hayal">Hayal gücü</option>
+            <option value="Rol">Rol yap</option>
+          </select>
+        </label>
+
+        <label>
+          Düşünme süresi
+          <div class="number-row">
+            <input id="thinkDuration" type="number" min="10" max="180" step="5" value="30" />
+            <span>saniye</span>
+          </div>
+        </label>
+
+        <label>
+          Konuşma süresi
+          <div class="number-row">
+            <input id="speakDuration" type="number" min="20" max="300" step="5" value="60" />
+            <span>saniye</span>
+          </div>
+        </label>
+      </div>
+    </section>
+
+    <section class="panel card-panel" aria-labelledby="kart-baslik">
+      <div class="section-heading">
+        <div>
+          <span class="step-number">2</span>
+          <div>
+            <h2 id="kart-baslik">Kartını çek</h2>
+            <p>Her çekilişte yeni bir konuşma görevi gelir.</p>
+          </div>
+        </div>
+        <span id="cardCounter" class="pill">0 kart</span>
+      </div>
+
+      <div id="promptCard" class="prompt-card empty" aria-live="polite">
+        <div class="prompt-icon">🎁</div>
+        <div class="prompt-content">
+          <span id="promptCategory" class="category-badge">Hazır mısın?</span>
+          <p id="promptText">İlk konuşma kartını çekmek için aşağıdaki düğmeye bas.</p>
+          <p id="promptHint" class="prompt-hint">Konuşurken: giriş yap → düşünceni anlat → gerekçe ver → örnekle → tamamla.</p>
+        </div>
+      </div>
+
+      <div class="card-actions">
+        <button id="drawButton" class="primary-button" type="button">🎲 Kart Çek</button>
+        <button id="skipButton" class="secondary-button" type="button" disabled>↻ Başka Kart</button>
+      </div>
+    </section>
+
+    <section class="panel timer-panel" aria-labelledby="sayac-baslik">
+      <div class="section-heading">
+        <div>
+          <span class="step-number">3</span>
+          <div>
+            <h2 id="sayac-baslik">Düşün ve konuş</h2>
+            <p>Sayaç iki aşamada ilerler.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="timer-stage" id="timerStage">
+        <div class="timer-ring" id="timerRing" style="--progress: 0deg">
+          <div class="timer-inner">
+            <span id="phaseIcon" class="phase-icon">💭</span>
+            <span id="phaseLabel" class="phase-label">Hazır</span>
+            <strong id="timerDisplay">00:30</strong>
+          </div>
+        </div>
+
+        <div class="timer-copy">
+          <h3 id="phaseTitle">Önce kartını çek.</h3>
+          <p id="phaseDescription">Kart geldikten sonra “Düşünmeye Başla” düğmesi etkinleşecek.</p>
+        </div>
+      </div>
+
+      <div class="timer-actions">
+        <button id="startButton" class="primary-button" type="button" disabled>▶ Düşünmeye Başla</button>
+        <button id="pauseButton" class="secondary-button" type="button" disabled>⏸ Duraklat</button>
+        <button id="resetButton" class="ghost-button" type="button" disabled>↺ Sıfırla</button>
+      </div>
+
+      <div class="flow-hint" aria-label="Etkinlik akışı">
+        <span>🎲 Kart</span><span>→</span><span>💭 Düşün</span><span>→</span><span>🎤 Konuş</span><span>→</span><span>👏 Alkış</span>
+      </div>
+    </section>
+
+    <section class="panel feedback-panel">
+      <div class="section-heading">
+        <div>
+          <span class="step-number">4</span>
+          <div>
+            <h2>Dinleyici görevi</h2>
+            <p>Her konuşmadan sonra bir öğrenci olumlu geri bildirim versin.</p>
+          </div>
+        </div>
+      </div>
+      <blockquote>“Konuşmanda en çok <strong>…</strong> kısmını beğendim çünkü <strong>…</strong>.”</blockquote>
+      <div class="mini-rubric">
+        <span>👀 Göz teması</span>
+        <span>🔊 Anlaşılır ses</span>
+        <span>🧠 Konuya bağlılık</span>
+        <span>💡 Gerekçe / örnek</span>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Konuşma Kutusu • Türkçe dersi için sınıf içi konuşma etkinliği</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
