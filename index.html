@@ -3,31 +3,109 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="theme-color" content="#7c3aed" />
-  <meta name="description" content="5. sınıf Türkçe konuşma dersleri için rastgele konuşma kartları ve düşünme/konuşma sayaçları." />
-  <title>Konuşma Kutusu | 5. Sınıf Türkçe</title>
+  <meta name="theme-color" content="#6d28d9" />
+  <meta name="description" content="5. sınıf Türkçe konuşma dersleri için oyunlaştırılmış konuşma kutusu uygulaması." />
+  <title>Konuşma Kutusu | Oyunlu Konuşma Dersi</title>
   <link rel="manifest" href="manifest.json" />
   <link rel="icon" href="icon.svg" type="image/svg+xml" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <header class="topbar">
-    <div>
-      <p class="eyebrow">5. SINIF TÜRKÇE • KONUŞMA BECERİSİ</p>
+  <div class="page-decor decor-1"></div>
+  <div class="page-decor decor-2"></div>
+  <div class="page-decor decor-3"></div>
+
+  <header class="hero">
+    <div class="hero-left">
+      <p class="eyebrow">5. SINIF TÜRKÇE • KONUŞMA MACERASI</p>
       <h1>🎤 Konuşma Kutusu</h1>
-      <p class="subtitle">Kartını çek, düşün, konuş ve sözünü tamamla.</p>
+      <p class="hero-text">Kartını çek, düşün, konuş, puan topla ve rozet kazan! Türkçe dersini küçük bir sahne oyununa dönüştür.</p>
+
+      <div class="hero-actions">
+        <button id="drawButton" class="primary-button big-button" type="button">🎲 Yeni Kart Çek</button>
+        <button id="soundToggle" class="ghost-button" type="button" aria-pressed="true">🔔 Ses açık</button>
+      </div>
+
+      <div class="mini-guide">
+        <span>🎁 Kart</span>
+        <span>💭 Düşün</span>
+        <span>🎤 Konuş</span>
+        <span>⭐ Puan</span>
+        <span>🏅 Rozet</span>
+      </div>
     </div>
-    <button id="soundToggle" class="ghost-button" type="button" aria-pressed="true">🔔 Ses açık</button>
+
+    <div class="hero-right mascot-card">
+      <div class="mascot-face">
+        <div class="eye"></div>
+        <div class="eye"></div>
+        <div class="mouth"></div>
+      </div>
+      <h2>Konuşkan Kutu</h2>
+      <p id="mascotMessage">Hazırsan kartını çekelim! Bugün sınıfta söz sende.</p>
+      <div class="mascot-stars">
+        <span>✨</span><span>🌈</span><span>⭐</span>
+      </div>
+    </div>
   </header>
 
   <main class="app-shell">
-    <section class="panel controls-panel" aria-labelledby="ayarlar-baslik">
+    <section class="panel game-panel">
       <div class="section-heading">
         <div>
-          <span class="step-number">1</span>
+          <span class="step-number">Oyun</span>
           <div>
-            <h2 id="ayarlar-baslik">Dersi hazırla</h2>
-            <p>İstersen kategori ve süreleri değiştir.</p>
+            <h2>Sınıf Skor Tahtası</h2>
+            <p>Konuşmalar tamamlandıkça puan artar, seviye yükselir.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="score-grid">
+        <div class="score-box purple">
+          <span class="score-label">Toplam Puan</span>
+          <strong id="scoreValue">0</strong>
+        </div>
+        <div class="score-box orange">
+          <span class="score-label">Tamamlanan Konuşma</span>
+          <strong id="completedValue">0</strong>
+        </div>
+        <div class="score-box green">
+          <span class="score-label">Seviye</span>
+          <strong id="levelValue">Çekingen Serçe</strong>
+        </div>
+        <div class="score-box blue">
+          <span class="score-label">Seri</span>
+          <strong id="streakValue">0</strong>
+        </div>
+      </div>
+
+      <div class="progress-card">
+        <div class="progress-header">
+          <span>Seviye ilerlemesi</span>
+          <span id="progressText">0 / 30 puan</span>
+        </div>
+        <div class="progress-track">
+          <div id="progressBar" class="progress-fill"></div>
+        </div>
+      </div>
+
+      <div class="badge-card">
+        <div class="badge-header">
+          <h3>Rozetler</h3>
+          <span id="badgeCounter">0 / 5 açıldı</span>
+        </div>
+        <div id="badgesContainer" class="badges-container"></div>
+      </div>
+    </section>
+
+    <section class="panel controls-panel">
+      <div class="section-heading">
+        <div>
+          <span class="step-number">Ayar</span>
+          <div>
+            <h2>Ders ayarları</h2>
+            <p>Kategori ve süreleri sınıfına göre değiştir.</p>
           </div>
         </div>
       </div>
@@ -63,40 +141,45 @@
       </div>
     </section>
 
-    <section class="panel card-panel" aria-labelledby="kart-baslik">
+    <section class="panel card-panel">
       <div class="section-heading">
         <div>
-          <span class="step-number">2</span>
+          <span class="step-number">Kart</span>
           <div>
-            <h2 id="kart-baslik">Kartını çek</h2>
-            <p>Her çekilişte yeni bir konuşma görevi gelir.</p>
+            <h2>Konuşma kartın</h2>
+            <p>Konuşma görevini çek ve bonus hedefini tamamla.</p>
           </div>
         </div>
         <span id="cardCounter" class="pill">0 kart</span>
       </div>
 
       <div id="promptCard" class="prompt-card empty" aria-live="polite">
+        <div class="card-glow"></div>
         <div class="prompt-icon">🎁</div>
         <div class="prompt-content">
           <span id="promptCategory" class="category-badge">Hazır mısın?</span>
-          <p id="promptText">İlk konuşma kartını çekmek için aşağıdaki düğmeye bas.</p>
+          <p id="promptText">İlk konuşma kartını çekmek için yukarıdaki düğmeye bas.</p>
+          <div id="bonusCard" class="bonus-card hidden">
+            <span class="bonus-title">🎯 Bonus Görev</span>
+            <p id="bonusText">Konuşmanda en az bir örnek ver.</p>
+          </div>
           <p id="promptHint" class="prompt-hint">Konuşurken: giriş yap → düşünceni anlat → gerekçe ver → örnekle → tamamla.</p>
         </div>
       </div>
 
       <div class="card-actions">
-        <button id="drawButton" class="primary-button" type="button">🎲 Kart Çek</button>
         <button id="skipButton" class="secondary-button" type="button" disabled>↻ Başka Kart</button>
+        <button id="surpriseButton" class="ghost-button" type="button">🎉 Sürpriz Mesaj</button>
       </div>
     </section>
 
     <section class="panel timer-panel" aria-labelledby="sayac-baslik">
       <div class="section-heading">
         <div>
-          <span class="step-number">3</span>
+          <span class="step-number">Süre</span>
           <div>
             <h2 id="sayac-baslik">Düşün ve konuş</h2>
-            <p>Sayaç iki aşamada ilerler.</p>
+            <p>Süre bitince aşama otomatik değişir.</p>
           </div>
         </div>
       </div>
@@ -113,27 +196,27 @@
         <div class="timer-copy">
           <h3 id="phaseTitle">Önce kartını çek.</h3>
           <p id="phaseDescription">Kart geldikten sonra “Düşünmeye Başla” düğmesi etkinleşecek.</p>
+
+          <div class="timer-actions">
+            <button id="startButton" class="primary-button" type="button" disabled>▶ Düşünmeye Başla</button>
+            <button id="pauseButton" class="secondary-button" type="button" disabled>⏸ Duraklat</button>
+            <button id="resetButton" class="ghost-button" type="button" disabled>↺ Sıfırla</button>
+          </div>
         </div>
       </div>
 
-      <div class="timer-actions">
-        <button id="startButton" class="primary-button" type="button" disabled>▶ Düşünmeye Başla</button>
-        <button id="pauseButton" class="secondary-button" type="button" disabled>⏸ Duraklat</button>
-        <button id="resetButton" class="ghost-button" type="button" disabled>↺ Sıfırla</button>
-      </div>
-
       <div class="flow-hint" aria-label="Etkinlik akışı">
-        <span>🎲 Kart</span><span>→</span><span>💭 Düşün</span><span>→</span><span>🎤 Konuş</span><span>→</span><span>👏 Alkış</span>
+        <span>🎲 Kart</span><span>→</span><span>💭 Düşün</span><span>→</span><span>🎤 Konuş</span><span>→</span><span>👏 Kutlama</span>
       </div>
     </section>
 
     <section class="panel feedback-panel">
       <div class="section-heading">
         <div>
-          <span class="step-number">4</span>
+          <span class="step-number">Sınıf</span>
           <div>
             <h2>Dinleyici görevi</h2>
-            <p>Her konuşmadan sonra bir öğrenci olumlu geri bildirim versin.</p>
+            <p>Her konuşmadan sonra sınıf arkadaşları destekleyici cümle kursun.</p>
           </div>
         </div>
       </div>
@@ -143,12 +226,16 @@
         <span>🔊 Anlaşılır ses</span>
         <span>🧠 Konuya bağlılık</span>
         <span>💡 Gerekçe / örnek</span>
+        <span>😊 Kendine güven</span>
       </div>
     </section>
   </main>
 
+  <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
+  <div id="confettiLayer" class="confetti-layer" aria-hidden="true"></div>
+
   <footer>
-    <p>Konuşma Kutusu • Türkçe dersi için sınıf içi konuşma etkinliği</p>
+    <p>Konuşma Kutusu • Oyunlaştırılmış Türkçe konuşma etkinliği</p>
   </footer>
 
   <script src="app.js"></script>
