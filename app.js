@@ -101,6 +101,7 @@ const els = {
   surprise: document.querySelector('#surpriseButton'),
   start: document.querySelector('#startButton'),
   pause: document.querySelector('#pauseButton'),
+  skipThink: document.querySelector('#skipThinkButton'),
   reset: document.querySelector('#resetButton'),
   timerDisplay: document.querySelector('#timerDisplay'),
   timerRing: document.querySelector('#timerRing'),
@@ -199,6 +200,10 @@ function setPhase(nextPhase, announce = true) {
   phase = nextPhase;
   els.timerPanel.classList.toggle('speaking', phase === 'speak');
 
+  if (els.skipThink) {
+    els.skipThink.classList.toggle('hidden', phase !== 'think');
+  }
+
   if (phase === 'think') {
     els.phaseIcon.textContent = '💭';
     els.phaseLabel.textContent = 'Düşün';
@@ -262,6 +267,17 @@ function startTimer() {
       }
     }
   }, 1000);
+}
+
+function skipThinking() {
+  if (phase !== 'think' || !currentPrompt) return;
+  if (timerId) {
+    clearInterval(timerId);
+    timerId = null;
+  }
+  beginSpeaking();
+  startTimer();
+  showToast('⏭ Düşünme süresi atlandı. Konuşma başladı!');
 }
 
 function beginSpeaking() {
@@ -430,6 +446,7 @@ els.draw.addEventListener('click', drawPrompt);
 els.skip.addEventListener('click', drawPrompt);
 els.start.addEventListener('click', startTimer);
 els.pause.addEventListener('click', pauseTimer);
+if (els.skipThink) els.skipThink.addEventListener('click', skipThinking);
 els.reset.addEventListener('click', () => resetTimer(true));
 
 els.surprise.addEventListener('click', () => {
