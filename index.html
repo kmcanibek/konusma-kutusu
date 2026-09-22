@@ -50,55 +50,6 @@
   </header>
 
   <main class="app-shell">
-    <section class="panel game-panel">
-      <div class="section-heading">
-        <div>
-          <span class="step-number">Oyun</span>
-          <div>
-            <h2>Sınıf Skor Tahtası</h2>
-            <p>Konuşmalar tamamlandıkça puan artar, seviye yükselir.</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="score-grid">
-        <div class="score-box purple">
-          <span class="score-label">Toplam Puan</span>
-          <strong id="scoreValue">0</strong>
-        </div>
-        <div class="score-box orange">
-          <span class="score-label">Tamamlanan Konuşma</span>
-          <strong id="completedValue">0</strong>
-        </div>
-        <div class="score-box green">
-          <span class="score-label">Seviye</span>
-          <strong id="levelValue">Çekingen Serçe</strong>
-        </div>
-        <div class="score-box blue">
-          <span class="score-label">Seri</span>
-          <strong id="streakValue">0</strong>
-        </div>
-      </div>
-
-      <div class="progress-card">
-        <div class="progress-header">
-          <span>Seviye ilerlemesi</span>
-          <span id="progressText">0 / 30 puan</span>
-        </div>
-        <div class="progress-track">
-          <div id="progressBar" class="progress-fill"></div>
-        </div>
-      </div>
-
-      <div class="badge-card">
-        <div class="badge-header">
-          <h3>Rozetler</h3>
-          <span id="badgeCounter">0 / 5 açıldı</span>
-        </div>
-        <div id="badgesContainer" class="badges-container"></div>
-      </div>
-    </section>
-
     <section class="panel controls-panel">
       <div class="section-heading">
         <div>
@@ -196,7 +147,6 @@
         <div class="timer-copy">
           <h3 id="phaseTitle">Önce kartını çek.</h3>
           <p id="phaseDescription">Kart geldikten sonra “Düşünmeye Başla” düğmesi etkinleşecek.</p>
-
           <div class="timer-actions">
             <button id="startButton" class="primary-button" type="button" disabled>▶ Düşünmeye Başla</button>
             <button id="pauseButton" class="secondary-button" type="button" disabled>⏸ Duraklat</button>
@@ -207,6 +157,35 @@
 
       <div class="flow-hint" aria-label="Etkinlik akışı">
         <span>🎲 Kart</span><span>→</span><span>💭 Düşün</span><span>→</span><span>🎤 Konuş</span><span>→</span><span>👏 Kutlama</span>
+      </div>
+    </section>
+
+    <section class="panel game-panel">
+      <div class="section-heading">
+        <div>
+          <span class="step-number">Oyun</span>
+          <div>
+            <h2>Sınıf Skor Tahtası</h2>
+            <p>Konuşmalar tamamlandıkça puan artar, seviye yükselir.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="score-grid">
+        <div class="score-box purple"><span class="score-label">Toplam Puan</span><strong id="scoreValue">0</strong></div>
+        <div class="score-box orange"><span class="score-label">Tamamlanan Konuşma</span><strong id="completedValue">0</strong></div>
+        <div class="score-box green"><span class="score-label">Seviye</span><strong id="levelValue">Çekingen Serçe</strong></div>
+        <div class="score-box blue"><span class="score-label">Seri</span><strong id="streakValue">0</strong></div>
+      </div>
+
+      <div class="progress-card">
+        <div class="progress-header"><span>Seviye ilerlemesi</span><span id="progressText">0 / 30 puan</span></div>
+        <div class="progress-track"><div id="progressBar" class="progress-fill"></div></div>
+      </div>
+
+      <div class="badge-card">
+        <div class="badge-header"><h3>Rozetler</h3><span id="badgeCounter">0 / 5 açıldı</span></div>
+        <div id="badgesContainer" class="badges-container"></div>
       </div>
     </section>
 
@@ -222,11 +201,7 @@
       </div>
       <blockquote>“Konuşmanda en çok <strong>…</strong> kısmını beğendim çünkü <strong>…</strong>.”</blockquote>
       <div class="mini-rubric">
-        <span>👀 Göz teması</span>
-        <span>🔊 Anlaşılır ses</span>
-        <span>🧠 Konuya bağlılık</span>
-        <span>💡 Gerekçe / örnek</span>
-        <span>😊 Kendine güven</span>
+        <span>👀 Göz teması</span><span>🔊 Anlaşılır ses</span><span>🧠 Konuya bağlılık</span><span>💡 Gerekçe / örnek</span><span>😊 Kendine güven</span>
       </div>
     </section>
   </main>
