@@ -629,3 +629,25 @@ footer {
     grid-column: 1 / -1 !important;
   }
 }
+
+
+/* Kart çekme düğmesi ana çalışma alanında */
+.card-draw-row {
+  display: flex;
+  justify-content: center;
+  margin: 0 0 16px;
+}
+.card-draw-button {
+  min-width: 280px;
+  padding: 16px 26px;
+  font-size: 1.06rem;
+}
+@media (max-width: 560px) {
+  .card-draw-row {
+    display: block;
+  }
+  .card-draw-button {
+    width: 100%;
+    min-width: 0;
+  }
+}
