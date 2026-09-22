@@ -606,3 +606,26 @@ footer {
   .timer-actions { display: grid; grid-template-columns: 1fr; }
   button { width: 100%; }
 }
+
+
+/* 2026-09-22: ders kullanımına uygun yerleşim düzeltmesi */
+.controls-panel {
+  grid-column: 1 / -1 !important;
+}
+.game-panel,
+.feedback-panel {
+  grid-column: 1 / -1 !important;
+}
+.card-panel,
+.timer-panel {
+  grid-column: auto;
+}
+@media (max-width: 980px) {
+  .controls-panel,
+  .card-panel,
+  .timer-panel,
+  .game-panel,
+  .feedback-panel {
+    grid-column: 1 / -1 !important;
+  }
+}
