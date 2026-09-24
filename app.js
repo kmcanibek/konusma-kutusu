@@ -76,6 +76,39 @@ const badges = [
   { id: 'oniki', name: 'Sınıf Yıldızı', emoji: '🏆', need: 12, desc: '12 konuşma tamamlandı.' }
 ];
 
+const thinkingGuides = {
+  'Günlük': [
+    { icon: '💬', label: 'Fikrini seç', text: 'Bu konu hakkında sen ne düşünüyorsun? Cevabını tek cümlede söyle.' },
+    { icon: '❓', label: 'Nedenini bul', text: 'Neden böyle düşünüyorsun? En güçlü gerekçen ne?' },
+    { icon: '🧩', label: 'Örnek düşün', text: 'Yaşadığın, gördüğün ya da hayal edebileceğin bir örnek var mı?' },
+    { icon: '🎯', label: 'Sonuca bağla', text: 'Dinleyenin aklında hangi düşüncenin kalmasını istiyorsun?' }
+  ],
+  'Durum': [
+    { icon: '👀', label: 'Durumu anla', text: 'Bu durumda ilk fark edeceğin veya ilk yapacağın şey ne olurdu?' },
+    { icon: '🧠', label: 'Kararını ver', text: 'Nasıl davranırdın? Neden bu yolu seçerdin?' },
+    { icon: '➡️', label: 'Devamını düşün', text: 'Sonra ne olurdu? Olay nasıl gelişirdi?' },
+    { icon: '🏁', label: 'Sonuca bağla', text: 'Bu durumun sonunda ne öğrenir ya da ne hissederdin?' }
+  ],
+  'İkna': [
+    { icon: '📣', label: 'İsteğini söyle', text: 'Karşındaki kişiyi tam olarak neye ikna etmek istiyorsun?' },
+    { icon: '💪', label: 'Gerekçe üret', text: 'Bunu destekleyen iki güçlü nedenin ne?' },
+    { icon: '🗣️', label: 'Karşı tarafı düşün', text: 'Karşındaki kişi neye itiraz edebilir? Ona nasıl cevap verirsin?' },
+    { icon: '✅', label: 'Çağrını yap', text: 'Konuşmanı hangi net ve etkili cümleyle bitirebilirsin?' }
+  ],
+  'Hayal': [
+    { icon: '✨', label: 'Ana fikri kur', text: 'Hayalindeki şeyin en önemli özelliği ne?' },
+    { icon: '🎨', label: 'Ayrıntı ekle', text: 'Onu ilginç yapan iki ya da üç ayrıntı düşünebilir misin?' },
+    { icon: '⚙️', label: 'Nasıl işliyor?', text: 'Bu hayalî şey nasıl çalışıyor, kim kullanıyor veya ne işe yarıyor?' },
+    { icon: '🌟', label: 'Etkisini anlat', text: 'Bunu neden isterdin? İnsanların hayatını nasıl değiştirirdi?' }
+  ],
+  'Rol': [
+    { icon: '🎭', label: 'Rolünü hatırla', text: 'Şu anda kimsin ve kime konuşuyorsun?' },
+    { icon: '🎙️', label: 'Mesajını seç', text: 'Bu kişinin söylemesi gereken en önemli şey ne?' },
+    { icon: '🧷', label: 'Ayrıntı ekle', text: 'Rolünü gerçekçi gösterecek bir ayrıntı veya örnek ne olabilir?' },
+    { icon: '👏', label: 'Rol içinde bitir', text: 'Bu karakter konuşmasını nasıl etkili biçimde tamamlar?' }
+  ]
+};
+
 const mascotMessages = [
   'Harika! Bugün sınıfta söz pırıltısı var.',
   'Hazırsan sürpriz bir kart seni bekliyor.',
@@ -102,6 +135,11 @@ const els = {
   start: document.querySelector('#startButton'),
   pause: document.querySelector('#pauseButton'),
   skipThink: document.querySelector('#skipThinkButton'),
+  thinkingGuide: document.querySelector('#thinkingGuide'),
+  thinkingGuideStep: document.querySelector('#thinkingGuideStep'),
+  thinkingGuideIcon: document.querySelector('#thinkingGuideIcon'),
+  thinkingGuideLabel: document.querySelector('#thinkingGuideLabel'),
+  thinkingGuideText: document.querySelector('#thinkingGuideText'),
   reset: document.querySelector('#resetButton'),
   timerDisplay: document.querySelector('#timerDisplay'),
   timerRing: document.querySelector('#timerRing'),
@@ -137,6 +175,8 @@ let completed = 0;
 let streak = 0;
 let awardedForCurrentCard = false;
 let unlockedBadges = new Set();
+let thinkingGuideIndex = 0;
+let thinkingGuideInterval = null;
 
 function filteredPrompts() {
   if (els.category.value === 'all') return prompts;
@@ -184,6 +224,40 @@ function drawPrompt() {
   showToast('🎲 Yeni kart hazır! Sıra düşünmede.');
 }
 
+function getThinkingGuideSet() {
+  if (!currentPrompt) return thinkingGuides['Günlük'];
+  return thinkingGuides[currentPrompt.category] || thinkingGuides['Günlük'];
+}
+
+function renderThinkingGuide(index = 0) {
+  if (!els.thinkingGuide || !currentPrompt) return;
+  const guideSet = getThinkingGuideSet();
+  thinkingGuideIndex = index % guideSet.length;
+  const item = guideSet[thinkingGuideIndex];
+  els.thinkingGuideStep.textContent = `${thinkingGuideIndex + 1} / ${guideSet.length}`;
+  els.thinkingGuideIcon.textContent = item.icon;
+  els.thinkingGuideLabel.textContent = item.label;
+  els.thinkingGuideText.textContent = item.text;
+}
+
+function startThinkingGuide() {
+  stopThinkingGuide();
+  if (!els.thinkingGuide || !currentPrompt) return;
+  els.thinkingGuide.classList.remove('hidden');
+  renderThinkingGuide(0);
+  thinkingGuideInterval = setInterval(() => {
+    renderThinkingGuide(thinkingGuideIndex + 1);
+  }, 5500);
+}
+
+function stopThinkingGuide() {
+  if (thinkingGuideInterval) {
+    clearInterval(thinkingGuideInterval);
+    thinkingGuideInterval = null;
+  }
+  if (els.thinkingGuide) els.thinkingGuide.classList.add('hidden');
+}
+
 function getThinkDuration() {
   return clamp(Number(els.thinkDuration.value) || 30, 10, 180);
 }
@@ -205,22 +279,26 @@ function setPhase(nextPhase, announce = true) {
   }
 
   if (phase === 'think') {
+    if (currentPrompt) startThinkingGuide();
     els.phaseIcon.textContent = '💭';
     els.phaseLabel.textContent = 'Düşün';
     els.phaseTitle.textContent = 'Küçük planını yap.';
     els.phaseDescription.textContent = 'Ana fikrini, bir gerekçeni ve örneğini zihninde sırala.';
   } else if (phase === 'speak') {
+    stopThinkingGuide();
     els.phaseIcon.textContent = '🎤';
     els.phaseLabel.textContent = 'Konuş';
     els.phaseTitle.textContent = 'Sahne senin!';
     els.phaseDescription.textContent = 'Sınıfa dön, anlaşılır bir sesle konuş ve bonus görevi de tamamlamaya çalış.';
   } else if (phase === 'done') {
+    stopThinkingGuide();
     els.phaseIcon.textContent = '👏';
     els.phaseLabel.textContent = 'Tamam';
     els.phaseTitle.textContent = 'Konuşma tamamlandı!';
     els.phaseDescription.textContent = 'Şimdi sınıftan bir arkadaş olumlu geri bildirim versin. Sonra yeni kart çekebilirsiniz.';
     if (!awardedForCurrentCard) awardCompletion();
   } else {
+    stopThinkingGuide();
     els.phaseIcon.textContent = '💭';
     els.phaseLabel.textContent = 'Hazır';
     els.phaseTitle.textContent = 'Önce kartını çek.';
@@ -464,6 +542,7 @@ els.category.addEventListener('change', () => {
   els.promptCategory.textContent = 'Hazır mısın?';
   els.promptText.textContent = 'İlk konuşma kartını çekmek için yukarıdaki düğmeye bas.';
   els.bonusCard.classList.add('hidden');
+  stopThinkingGuide();
   els.skip.disabled = true;
   resetTimer(true);
   setMascot('Kategori değişti. Yeni kartın için hazırım!');
