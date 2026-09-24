@@ -1,4 +1,4 @@
-const CACHE = 'konusma-kutusu-layout-v5';
+const CACHE = 'konusma-kutusu-thinking-map-v6';
 const ASSETS = ['./', './index.html', './styles.css', './app.js', './manifest.json', './icon.svg'];
 
 self.addEventListener('install', event => {
